@@ -51,6 +51,7 @@ group :development, :test do
   # Debuggging
   gem 'awesome_print'
   gem 'pry'
+  gem 'pry-byebug'
   gem 'pry-nav'
 
   # Testing
