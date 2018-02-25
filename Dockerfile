@@ -5,6 +5,10 @@ MAINTAINER opensanca@opensanca.com
 ARG rails_env="development"
 ARG build_without=""
 
+ENV APP_PATH /usr/src/app
+
+WORKDIR ${APP_PATH}
+
 RUN apk update \
   && apk add \
     openssl \
@@ -16,12 +20,12 @@ RUN apk update \
   && wget https://yarnpkg.com/latest.tar.gz \
   && mkdir -p /opt/yarn \
   && tar -xf latest.tar.gz -C /opt/yarn --strip 1 \
-  && mkdir -p /var/app
+  && mkdir ./log
 
-ENV PATH="$PATH:/opt/yarn/bin" BUNDLE_PATH="/gems" BUNDLE_JOBS=2 RAILS_ENV=${rails_env} BUNDLE_WITHOUT=${bundle_without}
+ENV PATH="$PATH:/opt/yarn/bin" BUNDLE_PATH="/usr/local/bundle" BUNDLE_JOBS=2 RAILS_ENV=${rails_env} BUNDLE_WITHOUT=${bundle_without}
 
-COPY . /var/app
-WORKDIR /var/app
+COPY . ${APP_PATH}
 
 RUN bundle install && yarn && bundle exec rake assets:precompile
+
 CMD rails s -b 0.0.0.0

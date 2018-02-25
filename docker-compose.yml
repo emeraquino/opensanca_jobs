@@ -32,8 +32,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/var/app
-      - gemdata:/gems
+      - .:/usr/src/app
+      - gemdata:/usr/local/bundle
     command: rails s -b '0.0.0.0'
     environment:
       DATABASE_URL: postgres://postgres:@db/
@@ -49,8 +49,8 @@ services:
       - db
       - redis
     volumes:
-      - .:/var/app
-      - gemdata:/gems
+      - .:/usr/src/app
+      - gemdata:/usr/local/bundle
     command: sidekiq -q critical,2 -q default
     environment:
       DATABASE_URL: postgres://postgres:@db/
